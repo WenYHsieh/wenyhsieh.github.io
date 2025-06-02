@@ -1,19 +1,119 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+JavaScript:
+  label: JavaScript
+  description: JavaScript related articles
+  permalink: /tags/java-script
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+HTTP:
+  label: HTTP
+  description: HTTP protocol related articles
+  permalink: /tags/http
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+Cookie:
+  label: Cookie
+  description: Cookie related articles
+  permalink: /tags/cookie
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+Session:
+  label: Session
+  description: Session related articles
+  permalink: /tags/session
+
+Event Loop:
+  label: Event Loop
+  description: JavaScript Event Loop related articles
+  permalink: /tags/event-loop
+
+Promise:
+  label: Promise
+  description: JavaScript Promise related articles
+  permalink: /tags/promise
+
+Front-end:
+  label: Front-end
+  description: Front-end development articles
+  permalink: /tags/front-end
+
+Async:
+  label: Async
+  description: Asynchronous programming articles
+  permalink: /tags/async
+
+Callback:
+  label: Callback
+  description: Callback function related articles
+  permalink: /tags/callback
+
+Async/Await:
+  label: Async/Await
+  description: Async/Await related articles
+  permalink: /tags/async-await
+
+React:
+  label: React
+  description: React related articles
+  permalink: /tags/react
+
+useState:
+  label: useState
+  description: React useState hook articles
+  permalink: /tags/use-state
+
+DOM:
+  label: DOM
+  description: DOM manipulation articles
+  permalink: /tags/dom
+
+Reconciliation:
+  label: Reconciliation
+  description: React reconciliation process articles
+  permalink: /tags/reconciliation
+
+State:
+  label: State
+  description: State management articles
+  permalink: /tags/state
+
+Update:
+  label: Update
+  description: Update related articles
+  permalink: /tags/update
+
+useEffect:
+  label: useEffect
+  description: React useEffect hook articles
+  permalink: /tags/use-effect
+
+cloud-run:
+  label: Cloud Run
+  description: Google Cloud Run related articles
+  permalink: /tags/cloud-run
+
+gitlab:
+  label: GitLab
+  description: GitLab related articles
+  permalink: /tags/gitlab
+
+CICD:
+  label: CI/CD
+  description: Continuous Integration and Deployment articles
+  permalink: /tags/cicd
+
+devOps:
+  label: DevOps
+  description: DevOps related articles
+  permalink: /tags/devops
+
+AWS:
+  label: AWS
+  description: Amazon Web Services related articles
+  permalink: /tags/aws
+
+EC2:
+  label: EC2
+  description: Amazon EC2 related articles
+  permalink: /tags/ec2
+
+LAMP:
+  label: LAMP
+  description: LAMP stack related articles
+  permalink: /tags/lamp

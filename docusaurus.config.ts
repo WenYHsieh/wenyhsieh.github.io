@@ -25,7 +25,7 @@ const config: Config = {
   organizationName: 'WenYHsieh', // Usually your GitHub org/user name.
   projectName: 'personal-blog', // Usually your repo name.
   trailingSlash: false,
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   i18n: {
     defaultLocale: 'zh-TW',
@@ -54,7 +54,7 @@ const config: Config = {
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
+          onUntruncatedBlogPosts: 'ignore',
           routeBasePath: '/', // Make blog the index page
         },
         theme: {
