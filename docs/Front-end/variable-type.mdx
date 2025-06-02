@@ -1,0 +1,270 @@
+---
+enableComments: true
+---
+
+# JavaScript 變數
+
+## 變數宣告
+
+---
+
+### 關於型別
+
+JavaScript 是「動態型別語言」或稱「弱型別語言」。
+
+代表說他不需要在宣告變數時指定變數的型別，JS runtime 會藉由儲存的值來判斷他的型別。
+
+```js
+let myName = '123'
+// 用雙引號包裹的話，JS runtime 可以識別這是一個字串
+```
+
+其他「強型別語言」，如 Java，就需要在宣告變數時就指定型別，否則會出現編譯錯誤。
+
+```java
+int myName = 123
+// 需要指定變數型別為 int
+```
+
+### 關於宣告
+
+var 是 ES6 以前變數宣告唯一的方法，ES6 開始才出現 let 跟 const。
+
+以下比較差別：
+
+1. scope 變數的生存範圍
+
+var 為 function scope，let 與 const 為 block scope
+
+2. hoisting 行為不同
+
+var 在 hoisting 時會將變數給定一個記憶體空間並預設為 undefined，賦值前取用不會報錯，只會得到 undefined。
+
+let, const 也會有 hositing ，也會在記憶體中被設定好，但直到賦值前之前你都不能取用，JS engine 會把他擋下來不讓你取用，這段期間稱為 TDZ (Temporal Dead Zone)。
+
+3. 重複宣告
+
+var 可以被重複宣告，let 與 const 則不行。
+
+```js
+var c = 123
+var c = 456
+console.log(c) // 456
+
+let d = 123
+let d = 456
+// caught SyntaxError: Identifier 'd' has already been declared
+
+const e = 123
+const e = 456
+// caught SyntaxError: Identifier 'd' has already been declared
+```
+
+4. const 宣告時一定要賦值。不可以重新賦值，但可以更改內容。其餘兩者沒有此限制
+
+```js
+const a = 123
+a = 456
+// caught SyntaxError: Identifier 'a' has already been declared
+
+const b = { test: 123 }
+b.test = 456
+console.log(b) // {test: 456}
+```
+
+## JS 資料型態
+
+---
+
+### Primitive type 原始型態 （純值）
+
+1. null
+   - 已經宣告但不存在
+   - 比 undefined 適合作為一個變數的初始值
+2. undefined
+   - 未宣告
+3. string 字串
+4. number 數字
+5. boolean 布林值
+6. Symbol (ES6)
+
+   - 在建造中，還沒有被全部的瀏覽器支援
+
+### Object 物件
+
+其他都是 Object 物件 (array, function, data …)
+
+## 型態查詢
+
+---
+
+1. `typeof`
+
+   背後有對應的表格在轉換，例如：
+
+   `typeof []` -> Object
+
+   `typeof function(){}` -> function
+
+   `typeof null` -> Object (這是一個 bug)
+
+   typeof 常見用途: 用來檢查變數有沒有宣告，避免沒宣告會報錯的情況
+
+   ```jsx
+   const a = 10
+   if (typeof a !== 'undefined') {
+     // 如果對一個沒宣告的變數 typeof 會是 undefined
+     if (a !== 'undefined') {
+       // 沒宣告，會報錯
+       console.log(a)
+     }
+   }
+   ```
+
+   由上面可發現，`typeof` 有時不是很直覺，沒辦法得知真實型態，例如沒辦法用 typeof 來得知一個變數是不是 array。
+
+   可以改用 `Array.isArray([])`，或者較準確的方法為以下...
+
+2. `Object.prototype.toString.call(要檢查的變數)`
+
+   -> [Object 輸入的變數的型態]
+
+## Immutable
+
+---
+
+primitive type 的變數為 immutable，代表我們沒有能力去改變他的內容，即便我用函式去改變他的內容，也只會回傳改變後的結果，如果把原本的變數印出來還是會跟原本一樣，這就是 immutable 的特性。
+
+不同的是，Object 可以是 mutable ，我們有辦法改變他的內容，表示改變內容後的結果可能是改到原本變數的內容，或者沒有改到，這兩種都是「允許」發生的，因此在操作時要特別去注意文件回傳的是什麼，有無改變到原本的 Object。
+
+## 賦值的行為
+
+---
+
+在 primitive type 當中，賦值存的是值，但 Object 存的是記憶體位置。
+
+因此在 prmitive type 中：
+
+```js
+const a = 10 // 先把 a 設定為 10
+const b = a // 把 b 設定為 10
+b = 20 // 把 b 改為 20
+```
+
+但對 Object 來說，如果我今天宣告一個變數 obj:
+
+```js
+/*    
+   開一個記憶體位置    
+   0x01 : { number: 10 }    
+   將這個記憶體位置存到 obj    
+   obj: 0x01
+*/
+var obj = { number: 10 }
+
+/*    
+   把 obj 存的記憶體位置也存到 obj2 中    
+   obj2: 0x01
+*/
+var obj2 = obj
+
+/*    
+   這邊要注意的是，當我現在又對 obj2 **賦值**，他就會跟原本 obj 記憶體位置斷開連結。    
+   底層作的事情其實是再去開一個新的記憶體位置，如： 0x02，來存 20    
+   0x20: { number: 20 }    
+   然後再把 obj2 的裡面存這個新的記憶體位置    
+   obj2: 0x20
+*/
+obj2 = { number: 20 }
+
+/*    
+   但這情況代表的就不同上述了，他指的是去存取 obj2 記憶體位置當中的 number，把他改成 20    
+   所以 obj2 存的記憶體位置還是同一塊，而不會區開一塊新的指過來
+*/
+obj2.number = 20
+```
+
+由上例子可知，對於 object 來說，賦值背後作的事情其實是會先開一個新的記憶體位置來存值，再把 object 的值設為新的記憶體位置。
+
+## == and === 的差異
+
+---
+
+`==`: 不同型態比較時，**背後有一方會先去轉換型態**再檢查
+
+`===`: **不會轉換型態**，因此型態不同就是不同
+
+:::caution 注意事項
+
+1. 物件比較要注意，用 === 時，記憶體位置一樣才是一樣，而不是去比較實際上的 key/value pair 是否相等
+2. **NaN 的型態是 number**，NaN 比較時要注意，他不會相等於任何東西，包括自己。 可以用 `isNaN(變數)` 來檢視是否為 NaN
+3. 如果不是完全了解 == 轉換規則的情況下，永遠用 === 會最保險。
+
+詳細比較結果可以查看 [JavaScript comparison table](https://dorey.github.io/JavaScript-Equality-Table/)
+
+:::
+
+## Scope 作用域 - 變數的生存範圍
+
+---
+
+### ES5
+
+1. 只有 function 能夠產生一個作用域
+2. function 內找不到變數會往 scope chain 上一層找 (如，全域) 找; 如果有找到，即便變數名稱一樣（一樣是合法的），就不會向外找。這種不在自己作用域中，也不是被當成參數傳進來的變數，就可以稱作 free variable，可以翻做自由變數
+3. 如果沒有用 var 宣告變數，直接賦值給一個位宣告的變數，這個變數會被宣告成全域變數
+
+### ES6
+
+1. 多了 let, const 兩種宣告變數的方式
+2. 這兩種變數宣告的方式是以 Block `{}` 來產生作用域 (if, function …都會產生新的作用域)
+
+## Scope chain
+
+---
+
+在宣告時就定義好了，依據他在程式碼脈絡中實體位置 (Lexical environment)，每個變數的外部參照 (outer lexical environment) 會被決定好，因為通常會很多層，這樣層層疊疊決定變數能夠在那邊被存取的東西就是 scope chain。
+
+這個外部參照的存取範圍與他在那邊被呼叫無關，這樣的作用域就叫做**靜態作用域 (static scope)**
+
+> 在其他程式語言當中也可能是設計成動態作用域 (dynamic scope)，scope 就會是在呼叫時才被決定的
+
+## 閉包 (Closure)
+
+---
+
+MDN 說明：
+
+> A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). In other words, a closure gives you access to an outer function's scope from an inner function.
+
+=> closure 就是 function 與他的 lexical environment 的結合體。 換句話說，function 與他的 lexical environment 會形成 closure。
+
+function 實際在程式碼脈絡中處在的實體位置 (lexical environment)，決定他與其他程式碼之間的關係。
+
+也就會影響到 function 內部的變數他可以使用哪些外部的變數， 為何要有 closure ？ 為了要確保你永遠能存取到該變數外部參照的 scope chain 當中的變數。
+
+在一個 function 中 return 一個 function，可以形成 closure，但這邊要注意，不一定要 return function 才會形成 closure，其實所有的 function 都是 closure。
+
+在下面的例子當中 `var func = outer()`，執行完之後 outer EC 就不在了，照理來說，在下面再次呼叫 `func()`，會取不到 a。
+
+但實際上取得到，因為 closure 的特性，在 `var func = outer()` 執行的時候，他不但回傳了 inner，也回傳的他的 lexical environment，也就是說 closure 被 return 了。
+
+```js
+function outer() {
+  var a = 10
+  function inner() {
+    a++
+    console.log(a)
+  }
+  return inner
+}
+var func = outer()
+func()
+```
+
+## Reference
+
+---
+
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+- [Udemy 課程，JavaScript 全攻略：克服 JS 的奇怪部分](https://www.udemy.com/course/javascriptjs/)

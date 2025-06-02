@@ -1,0 +1,131 @@
+---
+slug: async-handling-in-frontend
+title: 前端程式非同步流程控制
+tags: [Front-end, Async, Callback, Promise, Async/Await]
+---
+
+# 前端程式非同步流程控制
+
+## 非同步問題
+
+---
+
+網頁的世界，因為涉及網路連線、檔案讀取、排程、資料庫連線（也是使用到網路連線），執行網頁程式就會需要處理非同步問題。
+
+```js
+const delayedAdd = (n1, n2, delayTime) => {
+  window.setTimeout(() => {
+    return n1 + n2
+  }, delayTime)
+}
+
+const test = () => {
+  const result = delayedAdd(3, 4, 2000)
+  console.log(result)
+}
+```
+
+在這個例子當中，因為程式不可能因為非同步的程式碼而阻塞後面的程式執行，非同步的程式會在所有同步程式碼都執行完畢後，最少等待指定時間才會被執行。
+
+所以在這地方 `console.log(result)` 會拿到 還沒等待時的值，也就是 `undefined`
+
+進幾年解決的方案: **回呼函式 Callbacks、Promises 物件、Async/Await 非同步流程控制**
+
+### 1. Callback function
+
+一個純函式
+
+```js
+const delayedAdd = (n1, n2, delayTime, callback) => {
+  window.setTimeout(() => {
+    callback(n1 + n2)
+  }, delayTime)
+}
+
+const test = () => {
+  delayedAdd(3, 4, 2000, (result) => {
+    console.log(result)
+  })
+}
+```
+
+### 2. Promise
+
+官方提供方式，可以解決 callback function 的作法會產生 callback hell 閱讀與理解上的問題。
+
+```js
+const delayedAdd = (n1, n2, delayTime) => {
+  const p = new Promise(() => {
+    window.setTimeout(() => {
+      resolve(n1 + n2)
+    }, delayTime)
+  })
+  return p
+}
+
+const test = () => {
+  const promise = delayedAdd(3, 4, 2000)
+  promise.then((result) => console.log(result))
+}
+```
+
+1.  第一步是建立 Promise 物件
+2.  傳入的 function ，瀏覽器或 node，會塞給你兩個參數，分別是 resolve, reject
+3.  工作完成後（在這裡子當中就是等兩秒這件事），可以呼叫 resolve 把結果透過參數傳遞進去
+4.  透過 `.then` 可以讓我們從 promise 裡面拿到 resolve 的值。如果是在非同步執行完後呼叫 reject，則是對應到 `.catch` 最常見的就是錯誤處理
+
+**Promise.all 等待所有 Promise 都結束後返回結果的 array**
+
+```js
+const test = () => {
+  const promise1 = delayedAdd(3, 4, 2000);
+  const promise2 = delayedAdd(1, 2, 3000);
+
+  Promise.all([promise1, promise2]).then((results) => {
+    const answer = results.reduce((total, value) => return total * value);
+    console.log(answer);
+  })
+};
+```
+
+### 3. Promise 搭配以 async-await 簡化
+
+```js
+const test = async () => {
+  const result1 = await delayedAdd(3, 4, 2000)
+  const result2 = await delayedAdd(1, 2, 2000)
+  const answer = result1 * result2
+  console.log(answer)
+}
+```
+
+:::tip
+
+Async/Await: 與 Promise 搭配使用的語法糖。進一步提升了 Promise 寫法的簡潔性，讓非同步程式碼看起來像是同步執行，但需要注意 async function 就如同他的名字一樣，會等待 await 後面的 Promise 結束後才會執行下面的程式碼，有時候不適合使用。
+
+- 使用 await 必需將外層 function 加上 async
+- async function 人如其名，遇到 await 會進行等待，以下面的例子來說，就會等待兩秒才印出 Hello
+
+```js
+const delayedAdd = (n1, n2, delayTime) => {
+  return new Promise((resolve, reject) => {
+    window.setTimeout(() => {
+      resolve(n1 + n2)
+    }, delayTime)
+  })
+}
+
+const test = async () => {
+  const result = await delayedAdd(3, 4, 2000)
+  console.log('Hello')
+  console.log(result)
+}
+```
+
+:::
+
+## Reference
+
+---
+
+[回呼函式 Callbacks、Promises 物件、Async/Await 非同步流程控制 - 彭彭直播 at 2019/04/07](https://www.youtube.com/watch?v=NOprCnnjHm0)
