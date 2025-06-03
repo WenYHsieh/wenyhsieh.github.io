@@ -1,0 +1,46 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.notesSidebar.category.Front-end": {
+    "message": "Front-end",
+    "description": "The label for category Front-end in sidebar notesSidebar"
+  },
+  "sidebar.notesSidebar.category.Front-end.link.generated-index.description": {
+    "message": "Front-end notes",
+    "description": "The generated-index page description for category Front-end in sidebar notesSidebar"
+  },
+  "sidebar.notesSidebar.category.Back-end": {
+    "message": "Back-end",
+    "description": "The label for category Back-end in sidebar notesSidebar"
+  },
+  "sidebar.notesSidebar.category.Back-end.link.generated-index.description": {
+    "message": "Back-end notes",
+    "description": "The generated-index page description for category Back-end in sidebar notesSidebar"
+  },
+  "sidebar.notesSidebar.category.DevOps": {
+    "message": "DevOps",
+    "description": "The label for category DevOps in sidebar notesSidebar"
+  },
+  "sidebar.notesSidebar.category.DevOps.link.generated-index.description": {
+    "message": "DevOps notes",
+    "description": "The generated-index page description for category DevOps in sidebar notesSidebar"
+  },
+  "sidebar.notesSidebar.category.Web3.0": {
+    "message": "Web3.0",
+    "description": "The label for category Web3.0 in sidebar notesSidebar"
+  },
+  "sidebar.notesSidebar.category.Web3.0.link.generated-index.description": {
+    "message": "Web3.0 notes",
+    "description": "The generated-index page description for category Web3.0 in sidebar notesSidebar"
+  },
+  "sidebar.notesSidebar.category.Misc": {
+    "message": "Misc",
+    "description": "The label for category Misc in sidebar notesSidebar"
+  },
+  "sidebar.notesSidebar.category.Misc.link.generated-index.description": {
+    "message": "Misc notes",
+    "description": "The generated-index page description for category Misc in sidebar notesSidebar"
+  }
+}

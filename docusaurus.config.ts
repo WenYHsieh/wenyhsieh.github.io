@@ -29,7 +29,15 @@ const config: Config = {
   onBrokenMarkdownLinks: 'warn',
   i18n: {
     defaultLocale: 'zh-TW',
-    locales: ['en', 'zh-TW'],
+    locales: ['zh-TW', 'en'],
+    localeConfigs: {
+      'zh-TW': {
+        label: '中文',
+      },
+      'en': {
+        label: 'English',
+      },
+    },
   },
 
   presets: [
@@ -106,7 +114,12 @@ const config: Config = {
           label: 'GitHub',
           position: 'right',
         },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
       ],
+      
     },
     docs: {
       sidebar: {
