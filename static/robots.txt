@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://wenyhsieh.github.io/personal-blog/sitemap.xml
+Sitemap: https://wenyhsieh.github.io/sitemap.xml
