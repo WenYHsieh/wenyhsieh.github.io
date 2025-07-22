@@ -5,42 +5,20 @@ tags: [React, useEffect]
 ---
 
 # React useEffect hook
-
-## 簡介
-
----
-
-React 提供的，讓我們可以在每次 render 導致畫面更新之後，都去執行 Effects 的 hook。
+useEffect 是 React 提供的一個 hook，讓我們可以在每次 render 、畫面更新之後，都去執行 Effects 的邏輯。
 
 > Effects: react-specific side effect，一段用來跟 Component 外在系統同步的邏輯
 
-這不是專們用來模擬 class component 生命週期的 hook，因為他會在每次 dependency 內容更新後都被執行，意義上比較像是讓 component 去跟外在環境同步，而不是讓我們在 component 生命週期某階段（例如 mount）作某些事情。
+## 何時需要 Effect？
+通常一個 component 會具備以下兩種邏輯：
 
-React 18 為了模擬 component unmount 後再次 mount 的行為，會 mount component 兩次。這是為了確保 component 夠穩健，兩次都會得到相同結果、component 不會壞掉。（如果壞掉的話，也許要檢查是不是需要使用 cleanup function，或者其他地方有 bug，總之可以及早發現及早治療）
+1. Render 畫面用的：接收 props, state 計算出 JSX、也就是跟畫面渲染直接相關的邏輯。
+2. handle event 用的：綁定在 JSX 上面的，由事件驅動的邏輯。跟畫面渲染無直接相關。
 
-所以使用 `strict-mode` 且處在開發環境時，`useEffect` 的 Effect 也會被執行兩次。
+當這些還不夠完成我們需要的功能時，例如說我們想要在 `ChatReoom` component 出現在畫面上時，去跟後端建立連線，這是跟畫面渲染無直接相關也不是事件驅動的 side effect，這些就可以用 `useEffect` 來執行。所以，那些因為 render 本身帶來的 side effect 就適合用 `useEffect` 來操作。
 
-如果真的不需要可以用 `useRef` 判斷是否跑過一次。
-
-```js
-const component1 = () => {
-  const isFirstRender = React.useRef(true)
-
-  React.useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      return
-    }
-    // do whatever you want...
-  }, [])
-  return ...
-}
-```
 
 ## 使用 useEffect
-
----
-
 1. 定義 `Effect` 邏輯
 2. 定義 `dependency`，即我們希望在哪些狀態變動的情況下重新執行 `Effect`，空的話代表只會在 component mount 執行一次 `Effect` 而已。
 3. 如果有需要可以 return 我們希望在下次 `dependency` 更新驅動 `Effect` 執行之前，要先執行的一段 function（cleanup function)
@@ -52,25 +30,7 @@ useEffect(() => {
 }, [deps]) // 2. dependency
 ```
 
-
-
-## 何時需要 Effect？
-
----
-
-通常一個 component 會具備以下兩種邏輯：
-
-1. Render 畫面用的：接收 props, state 計算出 JSX、也就是跟畫面渲染直接相關的邏輯。
-2. handle event 用的：綁定在 JSX 上面的，由事件驅動的邏輯。跟畫面渲染無直接相關。
-
-當這些還不夠完成我們需要的功能時，例如說我們想要在 `ChatReoom` component 出現在畫面上時，去跟後端建立連線，這是跟畫面渲染無直接相關也不是事件驅動的 side effect，這些就可以用 `useEffect` 來執行。所以，那些因為 render 本身帶來的 side effect 就適合用 `useEffect` 來操作。
-
-
-
 ## useEffect cleanup function
-
----
-
 實務開發中，有一種常見的情形會使用到 `useEffect` cleanup function，就是當我們利用 `useEffect` 綁定 event handler 時，如下：
 
 ```js
@@ -89,22 +49,7 @@ const component1 = () => {
 
 這是因為如果不移除，會導致元件的實例仍然保留在記憶體中，無法被垃圾回收。這可能導致記憶體洩漏，使 React app 佔用更多記憶體。而另一方面，畫面上已經沒有此 component，但這個 event handler 持續在作用，這可能會導致預料之外的行為。
 
-
-
-## useLayoutEffect
-
----
-
-他跟 `useEffect` 長得很像，只差在 `Effect` 執行時間點。
-
-`useEffect` 會在畫面更新之後執行，而 `useLayoutEffect` 會在畫面更新之前執行。
-
-
-
 ## 也許不需要 useEffect 的場景
-
----
-
 1. 拿來計算在 render 就可以計算出來的值：在狀態或參數更新後去計算另一個狀態
 
    ```js
@@ -301,8 +246,32 @@ const component1 = () => {
    // ...
    ```
 
-## Reference
+## 注意事項
+- useEffect 不是專們用來模擬 class component 生命週期的 hook，因為他會在每次 dependency 內容更新後都被執行，意義上比較像是讓 component 去跟外在環境同步，而不是讓我們在 component 生命週期某階段（例如 mount）作某些事情。
 
----
+- React 18 為了模擬 component unmount 後再次 mount 的行為，會 mount component 兩次。這是為了確保 component 夠穩健，兩次都會得到相同結果、component 不會壞掉。（如果壞掉的話，也許要檢查是不是需要使用 cleanup function，或者其他地方有 bug。）
+  所以使用 `strict-mode` 且處在開發環境時，`useEffect` 的 Effect 也會被執行兩次，如果真的不需要可以用 `useRef` 判斷是否跑過一次。
+
+  ```js
+  const component1 = () => {
+    const isFirstRender = React.useRef(true)
+
+    React.useEffect(() => {
+      if (isFirstRender.current) {
+        isFirstRender.current = false
+        return
+      }
+      // do whatever you want...
+    }, [])
+    return ...
+  }
+
+## useLayoutEffect 與 useEffect 的差異
+
+他跟 `useEffect` 長得很像，只差在 `Effect` 執行時間點。
+
+`useEffect` 會在畫面更新之後執行，而 `useLayoutEffect` 會在畫面更新之前執行。
+
+## Reference
 
 [React docs](https://react.dev/learn/you-might-not-need-an-effect)

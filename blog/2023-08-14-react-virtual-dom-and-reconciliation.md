@@ -8,10 +8,6 @@ tags: [React, Virtual DOM, Reconciliation]
 React 利用 Virtual DOM 與 Reconciliation 來優化 DOM 的更新，這篇文章會介紹 Virtual DOM 與 Reconciliation 的原理與實作。
 了解 Virtual DOM 與 Reconciliation 是什麼之前，要先了解 react element 與 react component 的概念。
 
-React takes advantage of Virtual DOM and Reconciliation to optimize the update of DOM. This article will introduce the principles and implementation of Virtual DOM and Reconciliation.
-
-Before understanding Virtual DOM and Reconciliation, we need to understand the concepts of React element and React component first.
-
 ## React element
 
 ---

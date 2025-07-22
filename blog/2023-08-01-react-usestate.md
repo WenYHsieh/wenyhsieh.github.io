@@ -86,6 +86,7 @@ react 有這樣非同步更新 state 的原因是：
 
 1. 不希望產生過多 re-render，這可以讓 react app 跑得更快
 2. 確保可以在所有 event handler 都執行完才更新的話，就可以確保不會拿到更新到一半的值
+   
 
 ## Reference
 

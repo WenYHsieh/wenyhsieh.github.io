@@ -4,12 +4,14 @@ title: Deploy with Cloud Run
 tags: [cloud-run, DevOps, GCP]
 ---
 # Deployment with Cloud run
+This article introduces how we can deploy a service (take NextJS as an example) to Google Cloud Run using Docker and GCP Artifact Registry.
 
 ## Create a project on GCP
+First, we need to create a project on GCP.
 
 ## Create an Artifact registry
 
-go to ‘Artifact registry’ and click ‘+ CREATE REPOSITORY’ to create a repository for out application.
+After creating the project, navigate to ‘Artifact registry’ and click ‘+ CREATE REPOSITORY’ to create a repository for out application.
 
 Fill out proper info., like so:
 

@@ -1,14 +1,13 @@
 ---
-enableComments: true
+slug: js-variable
+title: JavaScript 變數
+tags: [JavaScript, Variable, Scope, Closure]
 ---
 
 # JavaScript 變數
+本篇彙整了 JavaScript 變數的相關知識，包含變數宣告、變數型態、變數賦值、變數作用域、閉包等等。
 
-## 變數宣告
-
----
-
-### 關於型別
+### JavaScript 是動態型別語言
 
 JavaScript 是「動態型別語言」或稱「弱型別語言」。
 
@@ -26,57 +25,10 @@ int myName = 123
 // 需要指定變數型別為 int
 ```
 
-### 關於宣告
-
-var 是 ES6 以前變數宣告唯一的方法，ES6 開始才出現 let 跟 const。
-
-以下比較差別：
-
-1. scope 變數的生存範圍
-
-var 為 function scope，let 與 const 為 block scope
-
-2. hoisting 行為不同
-
-var 在 hoisting 時會將變數給定一個記憶體空間並預設為 undefined，賦值前取用不會報錯，只會得到 undefined。
-
-let, const 也會有 hositing ，也會在記憶體中被設定好，但直到賦值前之前你都不能取用，JS engine 會把他擋下來不讓你取用，這段期間稱為 TDZ (Temporal Dead Zone)。
-
-3. 重複宣告
-
-var 可以被重複宣告，let 與 const 則不行。
-
-```js
-var c = 123
-var c = 456
-console.log(c) // 456
-
-let d = 123
-let d = 456
-// caught SyntaxError: Identifier 'd' has already been declared
-
-const e = 123
-const e = 456
-// caught SyntaxError: Identifier 'd' has already been declared
-```
-
-4. const 宣告時一定要賦值。不可以重新賦值，但可以更改內容。其餘兩者沒有此限制
-
-```js
-const a = 123
-a = 456
-// caught SyntaxError: Identifier 'a' has already been declared
-
-const b = { test: 123 }
-b.test = 456
-console.log(b) // {test: 456}
-```
-
-## JS 資料型態
-
----
+## 變數資料型態
 
 ### Primitive type 原始型態 （純值）
+變數的記憶體位置裡存的是值本身。
 
 1. null
    - 已經宣告但不存在
@@ -90,13 +42,11 @@ console.log(b) // {test: 456}
 
    - 在建造中，還沒有被全部的瀏覽器支援
 
-### Object 物件
+### Reference type 參考型態
+變數的記憶體位置裡存的是記憶體位置參照而不是值本身。
+例如：object, function, array。
 
-其他都是 Object 物件 (array, function, data …)
-
-## 型態查詢
-
----
+### 型態查詢
 
 1. `typeof`
 
@@ -129,21 +79,58 @@ console.log(b) // {test: 456}
 
    -> [Object 輸入的變數的型態]
 
-## Immutable
 
----
+## 變數宣告
 
-primitive type 的變數為 immutable，代表我們沒有能力去改變他的內容，即便我用函式去改變他的內容，也只會回傳改變後的結果，如果把原本的變數印出來還是會跟原本一樣，這就是 immutable 的特性。
+var 是 ES6 以前變數宣告唯一的方法，ES6 開始才出現 let 跟 const。
 
-不同的是，Object 可以是 mutable ，我們有辦法改變他的內容，表示改變內容後的結果可能是改到原本變數的內容，或者沒有改到，這兩種都是「允許」發生的，因此在操作時要特別去注意文件回傳的是什麼，有無改變到原本的 Object。
+以下比較差別：
 
-## 賦值的行為
+- scope 變數的生存範圍
 
----
+   var 為 function scope，let 與 const 為 block scope
 
-在 primitive type 當中，賦值存的是值，但 Object 存的是記憶體位置。
+- hoisting 行為不同
 
-因此在 prmitive type 中：
+   - var 在 hoisting 時會將變數給定一個記憶體空間並預設為 undefined，賦值前取用不會報錯，只會得到 undefined。
+
+   - let, const 也會有 hositing ，也會在記憶體中被設定好，但直到賦值前之前你都不能取用，JS engine 會把他擋下來不讓你取用，這段期間稱為 TDZ (Temporal Dead Zone)。
+
+- 重複宣告
+
+   var 可以被重複宣告，let 與 const 則不行。
+
+   ```js
+   var c = 123
+   var c = 456
+   console.log(c) // 456
+
+   let d = 123
+   let d = 456
+   // caught SyntaxError: Identifier 'd' has already been declared
+
+   const e = 123
+   const e = 456
+   // caught SyntaxError: Identifier 'd' has already been declared
+   ```
+
+- const 宣告時一定要賦值。不可以重新賦值，但可以更改內容。其餘兩者沒有此限制
+
+   ```js
+   const a = 123
+   a = 456
+   // caught SyntaxError: Identifier 'a' has already been declared
+
+   const b = { test: 123 }
+   b.test = 456
+   console.log(b) // {test: 456}
+   ```
+
+## 變數賦值：primitive type 與 reference type 賦值的行為差異比較
+
+承上述，在 primitive type 當中，賦值存的是值，但 Object 存的是記憶體位置。
+
+因此在 primitive type 中：
 
 ```js
 const a = 10 // 先把 a 設定為 10
@@ -186,9 +173,14 @@ obj2.number = 20
 
 由上例子可知，對於 object 來說，賦值背後作的事情其實是會先開一個新的記憶體位置來存值，再把 object 的值設為新的記憶體位置。
 
-## == and === 的差異
+## 變數的可變性 (mutable) 與不可變性 (immutable)
 
----
+primitive type 的變數為 immutable，代表我們沒有能力去改變他的內容，即便我用函式去改變他的內容，也只會回傳改變後的結果，如果把原本的變數印出來還是會跟原本一樣，這就是 immutable 的特性。
+
+不同的是，Object 可以是 mutable ，我們有辦法改變他的內容，表示改變內容後的結果可能是改到原本變數的內容，或者沒有改到，這兩種都是「允許」發生的，因此在操作時要特別去注意文件回傳的是什麼，有無改變到原本的 Object。
+
+
+## 變數比較：== and === 的差異
 
 `==`: 不同型態比較時，**背後有一方會先去轉換型態**再檢查
 
@@ -204,10 +196,8 @@ obj2.number = 20
 
 :::
 
-## Scope 作用域 - 變數的生存範圍
 
----
-
+## 變數的生存範圍：Scope 作用域
 ### ES5
 
 1. 只有 function 能夠產生一個作用域
@@ -219,9 +209,9 @@ obj2.number = 20
 1. 多了 let, const 兩種宣告變數的方式
 2. 這兩種變數宣告的方式是以 Block `{}` 來產生作用域 (if, function …都會產生新的作用域)
 
-## Scope chain
+## Scope chain and Closure
 
----
+### Scope chain
 
 在宣告時就定義好了，依據他在程式碼脈絡中實體位置 (Lexical environment)，每個變數的外部參照 (outer lexical environment) 會被決定好，因為通常會很多層，這樣層層疊疊決定變數能夠在那邊被存取的東西就是 scope chain。
 
@@ -229,9 +219,7 @@ obj2.number = 20
 
 > 在其他程式語言當中也可能是設計成動態作用域 (dynamic scope)，scope 就會是在呼叫時才被決定的
 
-## 閉包 (Closure)
-
----
+### 閉包 (Closure)
 
 MDN 說明：
 
@@ -263,8 +251,6 @@ func()
 ```
 
 ## Reference
-
----
 
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
 - [Udemy 課程，JavaScript 全攻略：克服 JS 的奇怪部分](https://www.udemy.com/course/javascriptjs/)

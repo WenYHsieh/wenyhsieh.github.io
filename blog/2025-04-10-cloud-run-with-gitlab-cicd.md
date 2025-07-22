@@ -4,6 +4,7 @@ title: Cloud Run deployment with GitLab CICD
 tags: [cloud-run, gitlab, CICD, devOps]
 ---
 # Cloud Run deployment with GitLab CICD
+This article introduces how to setup a GitLab CICD pipeline to deploy a service to Google Cloud Run.
 
 ## Create a Service account with proper roles for CI runner
 
@@ -17,9 +18,9 @@ tags: [cloud-run, gitlab, CICD, devOps]
     ![Screenshot 2025-02-24 at 3.43.48 pm.png](img/Screenshot_2025-02-24_at_3.43.48_pm.png)
     
 3. Apply service account name and assign it with following roles, click DONE
-    1. Artifact Registry writer
-    2. Cloud Run admin
-    3. Service account user
+    - Artifact Registry writer
+    - Cloud Run admin
+    - Service account user
         
         ![Screenshot 2025-02-24 at 3.46.07 pm.png](img/Screenshot_2025-02-24_at_3.46.07_pm.png)
         
@@ -47,6 +48,7 @@ tags: [cloud-run, gitlab, CICD, devOps]
 ![Screenshot 2025-02-24 at 3.33.14 pm.png](img/Screenshot_2025-02-24_at_3.33.14_pm.png)
 
 ## Create `.gitlab-ci.yml`
+Here is and example of `.gitlab-ci.yml` file to trigger the build and deploy process when we update the develop branch.
 
 ```yaml
 image: google/cloud-sdk:latest
