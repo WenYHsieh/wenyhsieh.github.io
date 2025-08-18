@@ -27,18 +27,18 @@ const config: Config = {
   trailingSlash: false,
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
-  i18n: {
-    defaultLocale: "zh-TW",
-    locales: ["zh-TW", "en"],
-    localeConfigs: {
-      "zh-TW": {
-        label: "中文",
-      },
-      en: {
-        label: "English",
-      },
-    },
-  },
+  // i18n: {
+  //   defaultLocale: "zh-TW",
+  //   locales: ["zh-TW", "en"],
+  //   localeConfigs: {
+  //     "zh-TW": {
+  //       label: "中文",
+  //     },
+  //     en: {
+  //       label: "English",
+  //     },
+  //   },
+  // },
 
   presets: [
     [
@@ -114,10 +114,10 @@ const config: Config = {
           label: "GitHub",
           position: "right",
         },
-        {
-          type: "localeDropdown",
-          position: "right",
-        },
+        // {
+        //   type: "localeDropdown",
+        //   position: "right",
+        // },
       ],
     },
     docs: {
